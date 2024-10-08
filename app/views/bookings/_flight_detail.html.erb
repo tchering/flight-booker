@@ -1,33 +1,82 @@
 <%#! received the variable from bookings/new.html.erb  %>
-<h1>Please complete the form</h1>
-<div class="flight_detail row">
-  <div class="col-5">
-    <h2 class="h4">Departure</h2>
-    <p class="mb-1"><strong>Airport:</strong> <%= flight.departure_airport.name %></p>
-    <p><strong>Date & Time:</strong> <%= flight.departure_date.strftime("%B %d, %Y %I:%M %p") %></p>
-  </div>
-  <div class="col-5">
-    <h2>Arrival</h2>
-    <p class="mb-1"><strong>Airport:</strong> <%= flight.arrival_airport.name %></p>
-    <p><strong>Duration:</strong> <%= flight.duration %> hours</p>
-  </div>
-</div>
-<div class="form">
-  <h2>Passengers Detail</h2>
-  <div class="form_detail">
-    <%= form_with(model: booking) do |f| %>
-      <%= f.hidden_field :flight_id ,value: flight.id %>
-      <%= f.fields_for :passengers do |pf| %>
-        <div class="form_field">
-          <%= pf.label :name, "Name" %>
-          <%= pf.text_field :name,value:params[:name] %>
+<div class="container py-4">
+  <h1 class="display-4 mb-4">Complete Your Booking</h1>
+  
+  <!-- Flight Details Card -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <h2 class="h5 text-muted mb-3">Departure</h2>
+          <div class="d-flex align-items-center mb-2">
+            <i class="bi bi-airplane-engines fs-4 me-2"></i>
+            <div>
+              <div class="fw-bold"><%= flight.departure_airport.name %></div>
+              <div class="text-muted">
+                <%= flight.departure_date.strftime("%B %d, %Y %I:%M %p") %>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form_field">
-          <%= pf.label :email,"Email" %>
-          <%= pf.email_field :email %>
+        <div class="col-md-6">
+          <h2 class="h5 text-muted mb-3">Arrival</h2>
+          <div class="d-flex align-items-center mb-2">
+            <i class="bi bi-airplane-engines-fill fs-4 me-2"></i>
+            <div>
+              <div class="fw-bold"><%= flight.arrival_airport.name %></div>
+              <div class="text-muted">
+                Duration: <%= flight.duration %> hours
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Passenger Details Form -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="h4 mb-4">Passenger Details</h2>
+      <%= form_with(model: booking, class: "needs-validation", novalidate: true) do |f| %>
+        <%= f.hidden_field :flight_id, value: flight.id %>
+        
+        <%= f.fields_for :passengers do |pf| %>
+          <div class="passenger-form mb-4">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <%= pf.text_field :name, 
+                      class: "form-control", 
+                      placeholder: "John Doe",
+                      required: true,
+                      value: params[:name] %>
+                  <%= pf.label :name, class: "required" %>
+                  <div class="invalid-feedback">
+                    Please provide passenger name.
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <%= pf.email_field :email, 
+                      class: "form-control",
+                      placeholder: "name@example.com",
+                      required: true %>
+                  <%= pf.label :email, class: "required" %>
+                  <div class="invalid-feedback">
+                    Please provide a valid email address.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        
+        <div class="d-grid gap-2">
+          <%= f.submit "Confirm Booking", class: "btn btn-primary btn-lg" %>
         </div>
       <% end %>
-      <%= f.submit %>
-    <% end %>
+    </div>
   </div>
 </div>
