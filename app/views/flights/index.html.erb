@@ -1,0 +1,62 @@
+<h1>Flights#index</h1>
+<%= form_with(url: search_flights_path,method: :get ,local: false) do |f| %>
+  <%#! First row for departure and arrival airport selection  %>
+  <div class="row">
+    <div class="col-5">
+      <%#todo 2 method 1ST-->method for select tag one wit select_tag "departure_id" string %>
+      <div class="form-group">
+        <%= f.label :departure_id,"Departure Airport" %>
+        <%= select_tag "departure_id",options_for_select(@airport_name_option,params[:departure_id]) %>
+        <%#? here  (@airport_name_option,params[:departure_id] is necessary to not reset the field which is useful for maintenaing user selection  %>
+      </div>
+    </div>
+    <%#todo 2ND-->method for select tag one wit select_tag :departure_id  symbol %>
+    <div class="col-5">
+      <%= f.label :arrival_id,"Arrival Airport" %>
+      <%= select_tag :arrival_id ,options_for_select(@airport_name_option,value: params[:arrival_id]) %>
+    </div>
+  </div>
+  <%#! Seconde row for date and passenger numbers %>
+  <div class="row">
+    <div class="col-5">
+      <div class="form-group">
+        <%= f.label :departure_date, "Departure Date" %>
+        <%= select_tag :departure_date, options_for_select(@flight_date_option, params[:departure_date]) %>
+      </div>
+    </div>
+    <div class="col-5">
+      <div class="form-group">
+        <%= f.label :passengers_num,"Number of Passengers" %>
+        <%= select_tag :passengers_num ,options_for_select(@passenger_options, params[:passengers_num]) %>
+      </div>
+    </div>
+  </div>
+  <%= f.submit "Search" %>
+<% end %>
+<%#! Search result %>
+<%#! booking controller new method will capture this form data and submit is handle by create %>
+<div class="row">
+  <div class="col-5">
+    <% if @flights.present? %>
+      <h2>Available Flights</h2>
+      <%#todo when flights exist then it will send the flight.id and passenger number to new method or bookingcontroller %>
+      <%= form_with(url: new_booking_path,method: :get) do |f| %>
+        <ul>
+          <% @flights.each do |flight| %>
+            <li>
+              <%#todo flight.id will be saved in params[:flight_id] becuase of r-button :flight_id %>
+              <%= f.radio_button :flight_id,flight.id %>
+              <%= flight.departure_airport.code %> to <%= flight.arrival_airport.code %> - <%= flight.departure_date.strftime("%Y-%m-%d %H:%M") %> (Duration: <%= flight.duration %> minutes)
+            </li>
+          <% end %>
+        </ul>
+        <%= f.hidden_field :passengers_num,value:params[:passengers_num] %>
+        <%= f.submit "Select Flight" %>
+      <% end %>
+    <% else %>
+      <p>No flights found.</p>
+    <% end %>
+  </div>
+  <div class="col-5">
+  </div>
+</div>

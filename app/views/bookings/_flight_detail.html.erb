@@ -1,0 +1,33 @@
+<%#! received the variable from bookings/new.html.erb  %>
+<h1>Please complete the form</h1>
+<div class="flight_detail row">
+  <div class="col-5">
+    <h2 class="h4">Departure</h2>
+    <p class="mb-1"><strong>Airport:</strong> <%= flight.departure_airport.name %></p>
+    <p><strong>Date & Time:</strong> <%= flight.departure_date.strftime("%B %d, %Y %I:%M %p") %></p>
+  </div>
+  <div class="col-5">
+    <h2>Arrival</h2>
+    <p class="mb-1"><strong>Airport:</strong> <%= flight.arrival_airport.name %></p>
+    <p><strong>Duration:</strong> <%= flight.duration %> hours</p>
+  </div>
+</div>
+<div class="form">
+  <h2>Passengers Detail</h2>
+  <div class="form_detail">
+    <%= form_with(model: booking) do |f| %>
+      <%= f.hidden_field :flight_id ,value: flight.id %>
+      <%= f.fields_for :passengers do |pf| %>
+        <div class="form_field">
+          <%= pf.label :name, "Name" %>
+          <%= pf.text_field :name,value:params[:name] %>
+        </div>
+        <div class="form_field">
+          <%= pf.label :email,"Email" %>
+          <%= pf.email_field :email %>
+        </div>
+      <% end %>
+      <%= f.submit %>
+    <% end %>
+  </div>
+</div>

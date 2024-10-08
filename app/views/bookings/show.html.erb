@@ -1,0 +1,25 @@
+<h1>Booking Details</h1>
+<p>
+  <strong>Booking ID:</strong>
+  <%= @booking.id %>
+</p>
+<p>
+  <strong>Flight ID:</strong>
+  <%= @booking.flight.id %>
+</p>
+<h2>Passengers</h2>
+<% if @booking.passengers.any? %>
+  <% @booking.passengers.each do |passenger| %>
+    <p>
+      <strong>Name:</strong>
+      <%= passenger.name %>
+    </p>
+    <p>
+      <strong>Email:</strong>
+      <%= passenger.email %>
+    </p>
+  <% end %>
+<% else %>
+  <p>No passengers found.</p>
+<% end %>
+<%= link_to 'Back', bookings_path %>
