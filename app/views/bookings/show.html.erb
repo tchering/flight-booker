@@ -7,6 +7,10 @@
   <strong>Flight ID:</strong>
   <%= @booking.flight.id %>
 </p>
+<p>
+  <strong>Total Passengers:</strong>
+  <%= @booking.passengers.count %>
+</p>
 <h2>Passengers</h2>
 <% if @booking.passengers.any? %>
   <% @booking.passengers.each do |passenger| %>

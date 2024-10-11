@@ -8,6 +8,11 @@ class FlightsController < ApplicationController
     @flights = Flight.includes(:departure_airport, :arrival_airport).all
     @flights = @flights.where(departure_id: params[:departure_id]) if params[:departure_id].present?
     @flights = @flights.where(arrival_id: params[:arrival_id]) if params[:arrival_id].present?
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @flights }
+    end
     if params[:departure_date].present?
       begin
         departure_date = Date.parse(params[:departure_date])

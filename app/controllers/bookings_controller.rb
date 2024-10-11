@@ -25,6 +25,15 @@ class BookingsController < ApplicationController
 
   def show
     @booking = Booking.includes(:passengers).find(params[:id])
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml { render :xml => @booking }
+      # format.xml {render xml: @booking} same as above
+      format.json { render json: @booking.as_json(include: :passengers) }
+      format.json { render json: @booking.as_json(include: { passengers: { only: [:email] } }) }
+      # If you need to include associated records (e.g., passengers), you should use as_json to specify the customization:
+    end
   end
 
   private
