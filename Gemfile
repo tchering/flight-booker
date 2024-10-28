@@ -58,7 +58,8 @@ group :development do
   gem "faker"
   gem "pry-byebug"
 
-gem "bullet", "~> 7.2"
+  gem "bullet", "~> 7.2"
+  gem "letter_opener"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
@@ -71,4 +72,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-

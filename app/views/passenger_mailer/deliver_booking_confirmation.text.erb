@@ -1,0 +1,16 @@
+Hello Mr/Mrs <%= @passenger.name %>,
+
+    Your booking has been confirmed successfully!
+
+    Flight Details:
+    ---------------
+    Departure City: <%= @flight.departure_airport.city %>
+        Airport: <%= @flight.departure_airport.name %>
+            Departure Date: <%= @flight.departure_date %>
+                Duration: <%= @flight.duration %>
+                    Passenger Name: <%= @passenger.name %>
+                        Booking Reference: <%= @passenger.booking_id %>
+
+                            Thank you for choosing our airline!
+
+                            If you have any questions, please contact our customer service at support@airline.com
